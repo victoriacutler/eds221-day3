@@ -9,6 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 
 library(tidyverse)
+library(palmerpenguins)
 ```
 
 ### `if` statements
@@ -67,4 +68,100 @@ if (marmot <0.5) {
   print("this is a large marmot")
 }
 
+```
+
+### `group_by() %>% summarize()`
+
+```{r}
+penguins |> 
+  group_by(species, island) |> 
+  summarize(mean_bill_length = mean(bill_length_mm, na.rm = TRUE),
+            sd_bill_length = sd(bill_length_mm, na.rm = TRUE),
+            sample_size = n())
+
+# find the mean and standard deviation of character height in starwars grouped by homeworld
+
+starwars_groupby = starwars |> 
+  group_by(homeworld) |> 
+  summarize(mean = mean(height, na.rm =TRUE),
+            st_dev = sd(height, na.rm = TRUE))
+
+starwars_groupby
+
+# find the maximum and minimum flipper length, and sample size for each species of penguins 
+
+penguins_groupby = penguins |> 
+  group_by(species) |> 
+  summarize(max_flipper_length = max(flipper_length_mm, na.rm = TRUE),
+            min_flipper_length = min(flipper_length_mm, na.rm = TRUE),
+            sample_size = n())
+penguins_groupby
+
+penguins |> 
+  group_by(species) |> 
+  summarize(across(where(is.numeric), c(mean, sd), na.rm = TRUE))
+```
+
+```{r}
+tree_height <- c(1, 2, 6, 10, 14, 20)
+
+for (i in seq_along(tree_height)) {
+  val = tree_height[i] + tree_height[i+1]
+  print(val)
+}
+```
+
+```{r}
+
+animal_ages <- vector(mode = "numeric", length = length(species))
+
+species <- c("dog", "elephant", "goat", "dog", "dog", "elephant")
+
+age_human_years <- c(3, 8, 4, 6, 12, 18)
+
+for (i in seq(species)) {
+  if (species[i] == "dog") {
+    animal_age <- age_human_years[i] * 7
+  } else if (species[i] == "elephant") {
+    animal_age <- age_human_years[i] * 0.88
+  } else if (species[i] == "goat") {
+    animal_age <- age_human_years[i] * 4.7
+  } 
+  print(animal_age)
+}
+
+for (i in seq(species)) {
+  if (species[i] == "dog") {
+    animal_age <- age_human_years[i] * 7
+  } else if (species[i] == "elephant") {
+    animal_age <- age_human_years[i] * 0.88
+  } else if (species[i] == "goat") {
+    animal_age <- age_human_years[i] * 4.7
+  } 
+  animal_ages[i] <- animal_age
+}
+```
+
+```{r}
+mean_mtcars <- vector(mode = "numeric", length = ncol(mtcars))
+
+for (i in seq_along(mtcars)) {
+  mean_val <- mean(mtcars[[i]], na.rm = TRUE)
+  mean_mtcars[i] <- mean_val
+}
+
+mean_mtcars
+```
+
+adding syntactic sugar (apply, across, map_df
+
+```{r}
+apply(X = mtcars, MARGIN = 2, FUN = mean)
+apply(mtcars, 2, mean)
+```
+
+```{r}
+map(.x = mtcars, .f = mean)
+
+map_df(mtcars, mean)
 ```
