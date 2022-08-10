@@ -1,0 +1,70 @@
+---
+title: "Day 3"
+author: "Victoria Cutler"
+date: "2022-08-10"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+
+library(tidyverse)
+```
+
+### `if` statements
+
+```{r}
+burrito <- 1
+
+if (burrito > 2) {
+  print("i love burritos")
+} ## command shift return runs all code
+```
+
+```{r}
+my_ships <- c("Millenium Falcon", "X-wing", "Tie-Fighter", "Death Star")
+
+str_detect(my_ships, pattern = "r") ## does each element in my_ships contain the letter r? this is case sensitive! you could convert to lowercase first to not worry about that
+
+# Example of string detect:
+
+phrase <- "I love burritos"
+
+if(str_detect(phrase, "love")) {
+  print("I am a burrito fan")
+}
+```
+
+```{r}
+tatooine_characters <- starwars |> 
+  filter(homeworld == "Tatooine") # essentially doing a four loop if else statement for u
+
+# Use %in% operator to check for multiple positive matches instead of above method with | symbol
+tatooine_endor_naboo <- starwars |> 
+  filter(homeworld %in% c("Tatooine", "Endor", "Naboo")) # essentially the same line as above with the "or" operator, that's just more lengthy
+```
+
+#### `if-else` statement
+
+```{r}
+pika <- 89.1
+
+if(pika > 60) {
+  print("mega pika")
+} else {
+  print("normal pika")
+}
+```
+
+```{r}
+marmot <- 2.8
+
+if (marmot <0.5) {
+  print("this is a small marmot")
+} else if (marmot >= 0.5 & marmot < 3) {
+  print("this is a medium marmot")
+} else {
+  print("this is a large marmot")
+}
+
+```
